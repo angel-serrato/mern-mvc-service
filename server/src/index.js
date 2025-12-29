@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import connectDB from './config/db.config.js';
 import productRoutes from './routes/product.routes.js';
+import { errorHandler } from './middlewares/errorHandler.middleware.js';
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ app.use('/api/products', productRoutes);
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to the Product API' });
 });
+
+app.use(errorHandler);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
