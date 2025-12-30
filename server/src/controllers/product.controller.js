@@ -26,3 +26,21 @@ export const getProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateProduct = async (req, res, next) => {
+  try {
+    const product = await productService.updateProduct(req.params.id, req.body);
+    res.status(200).json({ message: 'Product updated successfully', product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteProduct = async (req, res, next) => {
+  try {
+    await productService.deleteProduct(req.params.id);
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};

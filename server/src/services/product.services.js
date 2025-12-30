@@ -19,3 +19,27 @@ export const getProductById = async (id) => {
   }
   return product;
 };
+
+export const updateProduct = async (id, data) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new Error('Product not found');
+  }
+
+  if (data.name && data.name !== product.name) {
+    const exists = await Product.findOne({ name: data.name });
+    if (exists) {
+      throw new Error('Product name already exists');
+    }
+  }
+
+  return await Product.findByIdAndUpdate(id, data, { new: true });
+};
+
+export const deleteProduct = async (id) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new Error('Product not found');
+  }
+  return await Product.findByIdAndDelete(id);
+};
